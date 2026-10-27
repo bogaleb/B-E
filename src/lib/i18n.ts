@@ -24,13 +24,10 @@ export const D = {
   "skip": { en: "Skip to content", am: "ወደ ይዘቱ ይዝለሉ" },
 
   // hero
-  "hero.lentil": { en: "Lentils for misir.", am: "ምስር ለምስር ወጥ።" },
-  "hero.fava": { en: "Fava for ful.", am: "ባቄላ ለፉል።" },
-  "hero.flax": { en: "Flax for telba.", am: "ተልባ ለተልባ መጠጥ።" },
-  "hero.lentil.small": { en: "ምስር", am: "Lentils" },
-  "hero.fava.small": { en: "ባቄላ", am: "Fava" },
-  "hero.flax.small": { en: "ተልባ", am: "Flax" },
-  "hero.hint": { en: "Tap a line to switch grains. Press and drag anywhere to pour.", am: "እህሉን ለመቀየር መስመር ይንኩ። ለማፍሰስ ይጫኑና ይጎትቱ።" },
+  "hero.name.lentil": { en: "Red Lentils", am: "ቀይ ምስር" },
+  "hero.name.fava": { en: "Split Fava Beans", am: "የተከካ ባቄላ" },
+  "hero.name.flax": { en: "Brown Flaxseeds", am: "ቡናማ ተልባ" },
+  "hero.hint": { en: "Run your finger across the letters to stir the grains. Press to pour more.", am: "እህሉን ለማንቀሳቀስ ፊደሎቹን ይዳስሱ። ተጨማሪ ለማፍሰስ ይጫኑ።" },
 
   // common actions
   "cta.browse": { en: "Browse products", am: "ምርቶችን ይመልከቱ" },
