@@ -47,7 +47,7 @@ export async function saveProduct(_: ActionState, fd: FormData): Promise<ActionS
   const parsed = productSchema.safeParse({
     id: str(fd, "id") || undefined, slug: str(fd, "slug"), name: str(fd, "name"), packageName: str(fd, "packageName"),
     categoryId: str(fd, "categoryId") ?? "", shortDescription: str(fd, "shortDescription"), description: str(fd, "description"),
-    geezName: str(fd, "geezName"), geezLatin: str(fd, "geezLatin"), uses: str(fd, "uses"), ingredients: str(fd, "ingredients"),
+    geezName: str(fd, "geezName"), geezLatin: str(fd, "geezLatin"), nameAm: str(fd, "nameAm"), shortDescriptionAm: str(fd, "shortDescriptionAm"), usesAm: str(fd, "usesAm"), uses: str(fd, "uses"), ingredients: str(fd, "ingredients"),
     grainStyle: str(fd, "grainStyle"), isActive: fd.get("isActive") === "on", isFeatured: fd.get("isFeatured") === "on",
     sortOrder: str(fd, "sortOrder") ?? "0", variantLabel: str(fd, "variantLabel"), variantNetWeight: str(fd, "variantNetWeight"), variantUpc: str(fd, "variantUpc") ?? "",
   });
@@ -56,10 +56,17 @@ export async function saveProduct(_: ActionState, fd: FormData): Promise<ActionS
   const row = {
     slug: p.slug, name: p.name, package_name: p.packageName ?? null, category_id: p.categoryId ?? null,
     short_description: p.shortDescription ?? null, description: p.description ?? null, geez_name: p.geezName ?? null, geez_latin: p.geezLatin ?? null,
-    uses: p.uses, ingredients: p.ingredients ?? null, grain_style: p.grainStyle, is_active: p.isActive, is_featured: p.isFeatured, sort_order: p.sortOrder,
+    uses: p.uses, ingredients: p.ingredients ?? null,
+    name_am: p.nameAm ?? null, short_description_am: p.shortDescriptionAm ?? null, uses_am: p.usesAm, grain_style: p.grainStyle, is_active: p.isActive, is_featured: p.isFeatured, sort_order: p.sortOrder,
   };
   const q = p.id ? ctx.supabase.from("products").update(row).eq("id", p.id).select("id").single() : ctx.supabase.from("products").insert(row).select("id").single();
-  const { data, error } = await q;
+  let { data, error } = await q;
+  if (error?.code === "PGRST204" || error?.code === "42703") {
+    // Database hasn't had the Amharic migration yet: save everything else.
+    const { name_am: _a, short_description_am: _b, uses_am: _c, ...base } = row;
+    void _a; void _b; void _c;
+    ({ data, error } = await (p.id ? ctx.supabase.from("products").update(base).eq("id", p.id).select("id").single() : ctx.supabase.from("products").insert(base).select("id").single()));
+  }
   if (error || !data) return fail(error?.code === "23505" ? "Another product already uses this web address (slug)." : "The product wasn't saved. " + (error?.message ?? ""), error?.code === "23505" ? { slug: "Choose a different slug." } : undefined);
   if (p.variantLabel) {
     const { data: existing } = await ctx.supabase.from("product_variants").select("id").eq("product_id", data.id).eq("is_default", true).maybeSingle();
@@ -168,6 +175,7 @@ const settingsSchema = z.object({
   email: z.union([z.literal(""), z.string().trim().email("Enter a valid email.")]), phone: z.string().trim().max(40), hours: z.string().trim().max(160),
   announcementEnabled: z.boolean(), announcementText: z.string().trim().max(200),
   heroLede: z.string().trim().min(10).max(400), aboutBody: z.string().trim().min(10).max(1200),
+  heroLedeAm: z.string().trim().max(600), aboutBodyAm: z.string().trim().max(1600),
 });
 
 export async function saveSettings(_: ActionState, fd: FormData): Promise<ActionState> {
@@ -176,15 +184,15 @@ export async function saveSettings(_: ActionState, fd: FormData): Promise<Action
   const parsed = settingsSchema.safeParse({
     company: str(fd, "company"), city: str(fd, "city"), state: str(fd, "state"), email: str(fd, "email") ?? "", phone: str(fd, "phone") ?? "", hours: str(fd, "hours") ?? "",
     announcementEnabled: fd.get("announcementEnabled") === "on", announcementText: str(fd, "announcementText") ?? "",
-    heroLede: str(fd, "heroLede"), aboutBody: str(fd, "aboutBody"),
+    heroLede: str(fd, "heroLede"), aboutBody: str(fd, "aboutBody"), heroLedeAm: str(fd, "heroLedeAm") ?? "", aboutBodyAm: str(fd, "aboutBodyAm") ?? "",
   });
   if (!parsed.success) return fail("Check the highlighted fields.", fieldErrors(parsed.error));
   const s = parsed.data;
   const rows = [
     { key: "contact", value: { company: s.company, city: s.city, state: s.state, email: s.email || null, phone: s.phone || null, hours: s.hours || null } },
     { key: "announcement", value: { enabled: s.announcementEnabled, text: s.announcementText } },
-    { key: "home.hero", value: { lede: s.heroLede } },
-    { key: "about.story", value: { body: s.aboutBody } },
+    { key: "home.hero", value: { lede: s.heroLede, ledeAm: s.heroLedeAm } },
+    { key: "about.story", value: { body: s.aboutBody, bodyAm: s.aboutBodyAm } },
   ].map((r) => ({ ...r, is_public: true, updated_by: ctx.userId }));
   const { error } = await ctx.supabase.from("site_settings").upsert(rows, { onConflict: "key" });
   if (error) return fail("Settings weren't saved. " + error.message);

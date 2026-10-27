@@ -1,5 +1,8 @@
 "use client";
 import { useState } from "react";
+import { T } from "./T";
+import { getLang } from "./prefs";
+import { tr } from "@/lib/i18n";
 
 export type Errors = Record<string, string>;
 
@@ -14,14 +17,14 @@ export function useSubmit<T extends Record<string, unknown>>(endpoint: string) {
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; fields?: Errors };
       if (!res.ok || !data.ok) {
         setErrors(data.fields ?? {});
-        setFormError(data.error ?? "Your request could not be sent. Check your connection and try again.");
+        setFormError(data.error ?? tr("e.network", getLang()));
         focusFirstError(data.fields);
         return null;
       }
       setErrors({});
       return data as Record<string, unknown>;
     } catch {
-      setFormError("Your request could not be sent. Check your connection and try again.");
+      setFormError(tr("e.network", getLang()));
       return null;
     } finally {
       setBusy(false);
@@ -43,10 +46,10 @@ export const check = {
   zip: (v: string) => /^\d{5}(-\d{4})?$/.test(v.trim()),
 };
 
-export function Field({ id, name, label, error, optional, children }: { id: string; name: string; label: string; error?: string; optional?: boolean; children: React.ReactElement<Record<string, unknown>> }) {
+export function Field({ id, name, label, error, optional, children }: { id: string; name: string; label: React.ReactNode; error?: string; optional?: boolean; children: React.ReactElement<Record<string, unknown>> }) {
   return (
     <div className={`inp${error ? " bad" : ""}`} data-field={name}>
-      <label htmlFor={id}>{label}{optional && <span className="opt"> (optional)</span>}</label>
+      <label htmlFor={id}>{label}{optional && <span className="opt"> <T k="f.optional" /></span>}</label>
       {children}
       <span className="err" id={`${id}-err`} role={error ? "alert" : undefined}>{error}</span>
     </div>
@@ -64,5 +67,5 @@ export function Honeypot({ value, onChange }: { value: string; onChange: (v: str
 
 export function FormError({ message }: { message: string | null }) {
   if (!message) return null;
-  return <div className="note" role="alert" style={{ background: "rgba(201,44,50,.07)", borderColor: "rgba(201,44,50,.35)", color: "#8E1D22" }}><span>{message}</span></div>;
+  return <div className="formerr" role="alert"><span>{message}</span></div>;
 }

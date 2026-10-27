@@ -9,8 +9,12 @@ import { GRAIN } from "./grains";
 import { GrainSwatch } from "./GrainSwatch";
 import { KindTag } from "./ProductCard";
 import { cart, flyToBag, toast } from "./store";
+import { useLang, useT } from "./prefs";
+import { addFeedback } from "./feedback";
+import { pName } from "./ProductCard";
+import { T } from "./T";
+import { blurProps } from "@/lib/blur";
 
-const kindNote = (k: string) => (k === "actual" ? "Photo of the actual ETHIO package." : "This is a package design concept. The bag you receive may look different.");
 
 export function Gallery({ product: p }: { product: Product }) {
   const [i, setI] = useState(0);
@@ -25,9 +29,9 @@ export function Gallery({ product: p }: { product: Product }) {
       }} onPointerLeave={() => setLens(null)}>
         {img ? (
           <>
-            <Image key={img.src} src={img.src} alt={img.alt} fill sizes="(max-width: 900px) 100vw, 60vw" style={{ objectFit: "contain" }} priority />
+            <Image key={img.src} src={img.src} alt={img.alt} {...blurProps(img.src)} fill sizes="(max-width: 900px) 100vw, 60vw" style={{ objectFit: "contain" }} priority />
             <div className={`lens${lens ? " ok" : ""}`} style={{ backgroundImage: `url(${img.src})`, backgroundPosition: lens ?? "50% 50%", backgroundColor: "#fff", opacity: lens ? 1 : 0 }} />
-            <KindTag kind={img.kind} />
+            <KindTag kind={img.kind} photo />
           </>
         ) : (<><GrainSwatch grain={p.grain} /><KindTag kind="soon" /></>)}
       </div>
@@ -40,7 +44,7 @@ export function Gallery({ product: p }: { product: Product }) {
           ))}
         </div>
       )}
-      <p className="imgnote">{img ? kindNote(img.kind) : "We will add a photo of the actual package soon."}</p>
+      <p className="imgnote"><T k={!img ? "note.soon" : img.kind === "actual" ? "note.actual" : "note.concept"} /></p>
     </div>
   );
 }
@@ -50,35 +54,38 @@ export function BuyBox({ product: p }: { product: Product }) {
   const [variant, setVariant] = useState(defaultVariant(p.variants)?.label ?? ASK_SIZE);
   const [qty, setQty] = useState(1);
   const btn = useRef<HTMLButtonElement>(null);
+  const lang = useLang();
+  const t = useT();
   return (
     <>
-      <div className="field"><span className="lbl" id="lbl-buyer">I&apos;m buying for</span>
+      <div className="field"><span className="lbl" id="lbl-buyer"><T k="buy.for" /></span>
         <div className="seg" role="group" aria-labelledby="lbl-buyer">
-          <button type="button" aria-pressed={buyer === "household"} onClick={() => setBuyer("household")}>My household</button>
-          <button type="button" aria-pressed={buyer === "business"} onClick={() => setBuyer("business")}>My business</button>
+          <button type="button" aria-pressed={buyer === "household"} onClick={() => setBuyer("household")}><T k="buy.household" /></button>
+          <button type="button" aria-pressed={buyer === "business"} onClick={() => setBuyer("business")}><T k="buy.business" /></button>
         </div>
       </div>
-      <div className="field"><label htmlFor="size">Package size</label>
+      <div className="field"><label htmlFor="size"><T k="buy.size" /></label>
         <div className="inp"><select id="size" value={variant} onChange={(e) => setVariant(e.target.value)}>
           {p.variants.map((v) => <option key={v.label}>{v.label}</option>)}
-          <option>{ASK_SIZE}</option>
+          <option value={ASK_SIZE}>{t("size.askOther")}</option>
         </select></div>
       </div>
-      <div className="field"><span className="lbl">Quantity (bags)</span>
+      <div className="field"><span className="lbl"><T k="buy.qty" /></span>
         <div className="buyrow">
           <div className="qty">
-            <button type="button" aria-label="Decrease quantity" onClick={() => setQty((q) => clampQty(q - 1))}><Minus size={16} /></button>
+            <button type="button" aria-label={t("qty.dec")} onClick={() => setQty((q) => clampQty(q - 1))}><Minus size={16} /></button>
             <input id="qv" inputMode="numeric" aria-label="Quantity" value={qty} onChange={(e) => setQty(clampQty(parseInt(e.target.value, 10)))} />
-            <button type="button" aria-label="Increase quantity" onClick={() => setQty((q) => clampQty(q + 1))}><Plus size={16} /></button>
+            <button type="button" aria-label={t("qty.inc")} onClick={() => setQty((q) => clampQty(q + 1))}><Plus size={16} /></button>
           </div>
           <button ref={btn} className="btn red" type="button" onClick={() => {
             cart.add({ slug: p.slug, variant, buyer, qty });
             if (btn.current) flyToBag(btn.current, GRAIN[p.grain].colors);
-            toast(`${qty} × ${p.name} added to your inquiry.`, { href: "/inquiry", text: "View list" });
-          }}><Plus /> Add to inquiry</button>
+            addFeedback();
+            toast(`${qty} × ${pName(p, lang)} ${t("toast.added")}`, { href: "/inquiry", text: t("toast.view") });
+          }}><Plus /> <T k="cta.add" /></button>
         </div>
       </div>
-      <div className="note green"><Info /><span>Adding to your inquiry is not a purchase. We&apos;ll confirm price and availability before anything is final.</span></div>
+      <div className="note green"><Info /><span><T k="buy.notPurchase" /></span></div>
     </>
   );
 }

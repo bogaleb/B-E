@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { T } from "@/components/site/T";
 import Link from "next/link";
 import { Info } from "lucide-react";
 import { WholesaleForm } from "@/components/site/WholesaleForm";
@@ -12,26 +13,26 @@ export default async function WholesalePage() {
   return (
     <>
       <section className="phead dark"><div className="wrap">
-        <nav className="crumbs" aria-label="Breadcrumb" style={{ color: "#A9C0B1" }}><Link href="/">Home</Link><span>/</span><span>Wholesale</span></nav>
-        <span className="kicker">For businesses</span>
-        <h1>Wholesale for stores, restaurants and distributors</h1>
-        <p className="lede">Tell us which ETHIO products you need, in what quantities and how often. We&apos;ll reply with pricing, availability and delivery options for your location.</p>
+        <nav className="crumbs" aria-label="Breadcrumb" style={{ color: "#A9C0B1" }}><Link href="/"><T k="nav.home" /></Link><span>/</span><span><T k="nav.wholesale" /></span></nav>
+        <span className="kicker"><T k="ws.kicker" /></span>
+        <h1><T k="ws.title" /></h1>
+        <p className="lede"><T k="ws.lede" /></p>
       </div></section>
       <section className="band" style={{ paddingBlock: "0 64px" }}><div className="wrap"><div className="quad">
-        <div><b>Grocery stores</b><span>Retail-ready 2 lb bags with printed barcodes.</span></div>
-        <div><b>Supermarkets</b><span>Steady supply across multiple products.</span></div>
-        <div><b>Restaurants</b><span>The pulses and grains your menu depends on.</span></div>
-        <div><b>Distributors</b><span>Mixed orders across the full range.</span></div>
+        <div><b><T k="ws.grocery" /></b><span><T k="ws.grocery.p" /></span></div>
+        <div><b><T k="ws.super" /></b><span><T k="ws.super.p" /></span></div>
+        <div><b><T k="ws.rest" /></b><span><T k="ws.rest.p" /></span></div>
+        <div><b><T k="ws.dist" /></b><span><T k="ws.dist.p" /></span></div>
       </div></div></section>
       <section className="sec"><div className="wrap split">
         <WholesaleForm products={products} />
         <div className="aside">
-          <div className="sumcard"><h2>What happens next</h2>
-            <div className="sumline"><span>1. You&apos;ll see a reference number</span></div>
-            <div className="sumline"><span>2. We review your request</span></div>
-            <div className="sumline"><span>3. We contact you with an offer</span></div>
+          <div className="sumcard"><h2><T k="ws.next" /></h2>
+            <div className="sumline"><span><T k="ws.next1" /></span></div>
+            <div className="sumline"><span><T k="ws.next2" /></span></div>
+            <div className="sumline"><span><T k="ws.next3" /></span></div>
           </div>
-          <div className="note"><Info /><span>We don&apos;t publish wholesale prices online. Pricing depends on products, volume and delivery location.</span></div>
+          <div className="note"><Info /><span><T k="ws.noPrices" /></span></div>
         </div>
       </div></section>
     </>

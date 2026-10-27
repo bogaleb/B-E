@@ -14,7 +14,7 @@ export default async function NewProduct() {
       <Link href="/admin/products" className="text-sm font-semibold text-green">← Products</Link>
       <PageTitle title="Add product" sub="You can add photos after the product is created." />
       <Card><CardContent>
-        <ProductForm categories={cats ?? []} values={{ slug: "", name: "", packageName: "", categoryId: "", shortDescription: "", description: "", geezName: "", geezLatin: "", uses: "", ingredients: "", grainStyle: "lentil", isActive: false, isFeatured: false, sortOrder: 10, variantLabel: "", variantNetWeight: "", variantUpc: "" }} />
+        <ProductForm categories={cats ?? []} values={{ slug: "", name: "", packageName: "", categoryId: "", shortDescription: "", description: "", geezName: "", geezLatin: "", uses: "", nameAm: "", shortDescriptionAm: "", usesAm: "", ingredients: "", grainStyle: "lentil", isActive: false, isFeatured: false, sortOrder: 10, variantLabel: "", variantNetWeight: "", variantUpc: "" }} />
       </CardContent></Card>
     </>
   );

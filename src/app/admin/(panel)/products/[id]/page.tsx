@@ -35,7 +35,7 @@ export default async function EditProduct({ params, searchParams }: Props) {
         <Card><CardHeader><CardTitle>Details</CardTitle></CardHeader><CardContent>
           <ProductForm categories={cats ?? []} values={{
             id: p.id, slug: p.slug, name: p.name, packageName: p.package_name ?? "", categoryId: p.category_id ?? "", shortDescription: p.short_description ?? "",
-            description: p.description ?? "", geezName: p.geez_name ?? "", geezLatin: p.geez_latin ?? "", uses: (p.uses ?? []).join(", "), ingredients: p.ingredients ?? "",
+            description: p.description ?? "", geezName: p.geez_name ?? "", geezLatin: p.geez_latin ?? "", uses: (p.uses ?? []).join(", "), nameAm: p.name_am ?? "", shortDescriptionAm: p.short_description_am ?? "", usesAm: (p.uses_am ?? []).join(", "), ingredients: p.ingredients ?? "",
             grainStyle: p.grain_style, isActive: p.is_active, isFeatured: p.is_featured, sortOrder: p.sort_order,
             variantLabel: v?.label ?? "", variantNetWeight: v?.net_weight ?? "", variantUpc: v?.upc ?? "",
           }} />

@@ -20,18 +20,22 @@ export interface Category {
   id?: string;
   slug: string;
   name: string;
+  nameAm?: string | null;
 }
 
 export interface Product {
   id?: string;
   slug: string;
   name: string;
+  nameAm: string | null;
   packageName: string | null;
   category: Category | null;
   shortDescription: string;
+  shortDescriptionAm: string | null;
   geezName: string | null;
   geezLatin: string | null;
   uses: string[];
+  usesAm: string[];
   ingredients: string | null;
   nutrition: NutritionFacts | null;
   nutritionVerified: boolean;

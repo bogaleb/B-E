@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "@fontsource/noto-serif-ethiopic/500.css";
-import "@fontsource/noto-serif-ethiopic/700.css";
+import "@fontsource/noto-sans-ethiopic/400.css";
 import "./globals.css";
 import { publicEnv } from "@/lib/env";
+import { PREFS_SCRIPT } from "@/lib/prefs-script";
 
 // Self-hosted, preloaded, with metric-matched fallbacks to avoid layout shift.
-const display = localFont({ src: "../fonts/young-serif-latin-400-normal.woff2", weight: "400", variable: "--font-young", display: "swap", fallback: ["Georgia", "Times New Roman", "serif"] });
+const display = localFont({ src: "../fonts/young-serif-latin-400-normal.woff2", weight: "400", variable: "--font-young", display: "swap", adjustFontFallback: "Times New Roman", fallback: ["Georgia", "Times New Roman", "serif"] });
 const body = localFont({
   src: [
     { path: "../fonts/hanken-grotesk-latin-400-normal.woff2", weight: "400" },
@@ -31,7 +32,10 @@ export const viewport: Viewport = { themeColor: "#103F2D", width: "device-width"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html lang="en" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: PREFS_SCRIPT }} />
+      </head>
       <body>{children}</body>
     </html>
   );

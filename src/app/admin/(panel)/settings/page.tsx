@@ -15,7 +15,7 @@ export default async function SettingsPage() {
     <>
       <PageTitle title="Website content" sub="Business details and text shown across the website." />
       <Card><CardContent>
-        <SettingsForm values={{ company: c.company, city: c.city, state: c.state, email: c.email ?? "", phone: c.phone ?? "", hours: c.hours ?? "", announcementEnabled: a.enabled, announcementText: a.text, heroLede: h.lede, aboutBody: s.body }} />
+        <SettingsForm values={{ company: c.company, city: c.city, state: c.state, email: c.email ?? "", phone: c.phone ?? "", hours: c.hours ?? "", announcementEnabled: a.enabled, announcementText: a.text, heroLede: h.lede, aboutBody: s.body, heroLedeAm: h.ledeAm ?? "", aboutBodyAm: s.bodyAm ?? "" }} />
       </CardContent></Card>
     </>
   );

@@ -2,6 +2,9 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { CartDrawer } from "@/components/site/CartDrawer";
 import { Toast } from "@/components/site/Toast";
+import { T } from "@/components/site/T";
+import { NavProgress } from "@/components/site/NavProgress";
+import { Suspense } from "react";
 import { getProducts } from "@/lib/catalog";
 import { getSettings } from "@/lib/settings";
 import { publicEnv } from "@/lib/env";
@@ -17,10 +20,11 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   };
   return (
     <>
-      <a href="#main" className="skip">Skip to content</a>
+      <a href="#main" className="skip"><T k="skip" /></a>
       {settings.announcement.enabled && settings.announcement.text && (
         <div className="preview" role="note"><div className="wrap"><span>{settings.announcement.text}</span></div></div>
       )}
+      <Suspense fallback={null}><NavProgress /></Suspense>
       <Header />
       <main id="main" tabIndex={-1}>{children}</main>
       <Footer contact={c} />

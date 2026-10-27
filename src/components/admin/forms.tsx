@@ -46,7 +46,7 @@ export function StatusForm({ kind, id, statuses, status, notes }: { kind: "inqui
 
 export interface ProductFormValues {
   id?: string; slug: string; name: string; packageName: string; categoryId: string; shortDescription: string; description: string;
-  geezName: string; geezLatin: string; uses: string; ingredients: string; grainStyle: string; isActive: boolean; isFeatured: boolean; sortOrder: number;
+  geezName: string; geezLatin: string; uses: string; nameAm: string; shortDescriptionAm: string; usesAm: string; ingredients: string; grainStyle: string; isActive: boolean; isFeatured: boolean; sortOrder: number;
   variantLabel: string; variantNetWeight: string; variantUpc: string;
 }
 
@@ -70,6 +70,14 @@ export function ProductForm({ values, categories }: { values: ProductFormValues;
         <F label="Grain illustration" name="grainStyle" hint="Used when there's no photo."><NativeSelect id="grainStyle" name="grainStyle" defaultValue={values.grainStyle}>{["lentil", "flax", "fava", "bulgur", "bean"].map((g) => <option key={g}>{g}</option>)}</NativeSelect></F>
       </div>
       <F label="Good for" name="uses" error={e.uses} hint="Comma-separated, e.g. Misir wot, Soups"><Input id="uses" name="uses" defaultValue={values.uses} maxLength={400} /></F>
+      <fieldset className="grid gap-4 rounded-xl border border-line p-4">
+        <legend className="px-1 text-sm font-semibold">Amharic (shown when visitors switch to አማርኛ)</legend>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <F label="Product name in Amharic" name="nameAm" error={e.nameAm}><Input id="nameAm" name="nameAm" lang="am" defaultValue={values.nameAm} maxLength={120} placeholder="ቀይ ምስር" /></F>
+          <F label="Good for (Amharic)" name="usesAm" error={e.usesAm} hint="Comma-separated"><Input id="usesAm" name="usesAm" lang="am" defaultValue={values.usesAm} maxLength={600} /></F>
+        </div>
+        <F label="Short description in Amharic" name="shortDescriptionAm" error={e.shortDescriptionAm}><Textarea id="shortDescriptionAm" name="shortDescriptionAm" lang="am" defaultValue={values.shortDescriptionAm} maxLength={400} rows={3} /></F>
+      </fieldset>
       <F label="Ingredients" name="ingredients" error={e.ingredients} hint="Enter exactly as printed on the package. Leave empty until verified."><Textarea id="ingredients" name="ingredients" defaultValue={values.ingredients} maxLength={1000} rows={2} /></F>
       <fieldset className="grid gap-4 rounded-xl border border-line p-4 sm:grid-cols-3">
         <legend className="px-1 text-sm font-semibold">Default package size</legend>
@@ -126,7 +134,7 @@ export function CategoryForm({ values }: { values?: { id: string; slug: string; 
   );
 }
 
-export interface SettingsValues { company: string; city: string; state: string; email: string; phone: string; hours: string; announcementEnabled: boolean; announcementText: string; heroLede: string; aboutBody: string }
+export interface SettingsValues { company: string; city: string; state: string; email: string; phone: string; hours: string; announcementEnabled: boolean; announcementText: string; heroLede: string; aboutBody: string; heroLedeAm: string; aboutBodyAm: string }
 export function SettingsForm({ values }: { values: SettingsValues }) {
   const [state, action] = useActionState(saveSettings, null);
   const e = state?.fields ?? {};
@@ -149,7 +157,9 @@ export function SettingsForm({ values }: { values: SettingsValues }) {
       <fieldset className="grid gap-4">
         <legend className="mb-2 font-display text-lg text-deep">Page text</legend>
         <F label="Homepage introduction" name="heroLede" error={e.heroLede}><Textarea id="heroLede" name="heroLede" defaultValue={values.heroLede} maxLength={400} rows={3} /></F>
+        <F label="Homepage introduction (Amharic)" name="heroLedeAm" error={e.heroLedeAm}><Textarea id="heroLedeAm" name="heroLedeAm" lang="am" defaultValue={values.heroLedeAm} maxLength={600} rows={3} /></F>
         <F label="Our story" name="aboutBody" error={e.aboutBody} hint="Used on the homepage and About page."><Textarea id="aboutBody" name="aboutBody" defaultValue={values.aboutBody} maxLength={1200} rows={5} /></F>
+        <F label="Our story (Amharic)" name="aboutBodyAm" error={e.aboutBodyAm}><Textarea id="aboutBodyAm" name="aboutBodyAm" lang="am" defaultValue={values.aboutBodyAm} maxLength={1600} rows={5} /></F>
       </fieldset>
       <div className="flex flex-wrap items-center gap-3"><Submit>Save website content</Submit><Result state={state} /></div>
     </form>

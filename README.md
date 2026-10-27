@@ -91,7 +91,8 @@ PGTEST_URL=postgres://postgres:postgres@localhost:5432/postgres npm run test:db
 ## Setting up Supabase
 
 1. Create a project at [supabase.com](https://supabase.com) (the free tier is fine to start).
-2. **SQL editor →** run `supabase/migrations/20261027000001_initial_schema.sql`, then `supabase/seed.sql`.
+2. **SQL editor →** run `supabase/migrations/20261027000001_initial_schema.sql`, then `supabase/seed.sql`, then
+   `supabase/migrations/20261027000002_amharic_fields.sql` (adds Amharic product and category names).
    (Or with the Supabase CLI: `supabase link` then `supabase db push`, then run the seed.)
 3. **Authentication → Providers → Email:** keep email/password on. Turn **off** "Allow new users to sign up" so only
    people you invite can create accounts.
@@ -138,6 +139,20 @@ Nothing here buys services or deploys to production on its own.
 
 Catalog and content changes appear on the public site within about five minutes (pages revalidate every 5 min, and
 saving in the dashboard triggers an immediate refresh).
+
+### English / Amharic
+- Visitors switch language with the **EN / አማ** control in the header; the choice is remembered in their browser.
+- Interface text lives in `src/lib/i18n.ts`. Both languages are rendered and CSS shows one, so pages stay static and
+  never flash the wrong language. Amharic was drafted for review: have a native speaker check it before launch.
+- Product and category names, short descriptions and "good for" tags have Amharic fields in the dashboard.
+  Homepage introduction and story text have Amharic fields under **Website content**.
+- Privacy and Terms are English only and say so in Amharic.
+
+### Dark mode, sound and motion
+- The sun/moon button switches themes (defaults to the visitor's system setting). The admin dashboard stays light.
+- Adding to the inquiry list plays a short synthesized grain rattle and a light vibration on phones. Visitors can
+  turn sounds off in the footer.
+- All animation respects the visitor's "reduce motion" setting.
 
 ### Adding nutrition facts later
 Nutrition is stored as JSON on `products.nutrition` and shown only when `nutrition_verified = true`. Example:

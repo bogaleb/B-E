@@ -5,12 +5,13 @@ import { totalQty } from "@/lib/cart";
 import type { Product } from "@/lib/types";
 import { LineItem } from "./LineItem";
 import { useCart } from "./store";
+import { T } from "./T";
 
 export function InquiryList({ products }: { products: Product[] }) {
   const lines = useCart();
   const bySlug = (s: string) => products.find((p) => p.slug === s);
   if (!lines.length) return (
-    <div className="empty"><h2>Your inquiry list is empty</h2><p className="muted">Add products from the catalog to build a request.</p><Link className="btn" href="/products">Browse products</Link></div>
+    <div className="empty"><h2><T k="inq.emptyTitle" /></h2><p className="muted"><T k="inq.emptyHelp" /></p><Link className="btn" href="/products"><T k="cta.browse" /></Link></div>
   );
   const unavailable = lines.some((l) => !bySlug(l.slug));
   return (
@@ -18,16 +19,16 @@ export function InquiryList({ products }: { products: Product[] }) {
       <div className="lines">
         <h2 className="sr">Products in your list</h2>
         {lines.map((l, i) => <LineItem key={`${l.slug}-${l.variant}-${l.buyer}`} line={l} index={i} product={bySlug(l.slug)} />)}
-        <div><Link className="link" href="/products">+ Add more products</Link></div>
+        <div><Link className="link" href="/products"><T k="cta.addMore" /></Link></div>
       </div>
       <div className="aside">
         <div className="sumcard">
-          <h2>Summary</h2>
-          {lines.map((l) => <div className="sumline" key={`${l.slug}-${l.variant}-${l.buyer}`}><span>{bySlug(l.slug)?.name ?? l.slug} <span className="muted">· {l.buyer === "business" ? "Business" : "Household"}</span></span><b>{l.qty}</b></div>)}
-          <div className="sumline"><span><b>Total bags</b></span><b>{totalQty(lines)}</b></div>
-          {unavailable ? <p className="muted">Remove unavailable products to continue.</p> : <Link className="btn red" href="/order">Continue to order request <ArrowRight /></Link>}
+          <h2><T k="inq.summary" /></h2>
+          {lines.map((l) => <div className="sumline" key={`${l.slug}-${l.variant}-${l.buyer}`}><span>{(() => { const p = bySlug(l.slug); return p ? <T en={p.name} am={p.nameAm ?? undefined} /> : l.slug; })()} <span className="muted">· <T k={l.buyer === "business" ? "inq.business" : "inq.household"} /></span></span><b>{l.qty}</b></div>)}
+          <div className="sumline"><span><b><T k="inq.total" /></b></span><b>{totalQty(lines)}</b></div>
+          {unavailable ? <p className="muted"><T k="inq.removeToContinue" /></p> : <Link className="btn red" href="/order"><T k="cta.continueOrder" /> <ArrowRight /></Link>}
         </div>
-        <div className="note"><Info /><span>This list isn&apos;t an order. Nothing is charged, and prices aren&apos;t fixed until we confirm them with you.</span></div>
+        <div className="note"><Info /><span><T k="inq.notOrder" /></span></div>
       </div>
     </div>
   );

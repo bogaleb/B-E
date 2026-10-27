@@ -1,7 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { T } from "@/components/site/T";
 
 export const metadata: Metadata = { title: "FAQ", description: "How ordering, delivery, wholesale and product information work at ETHIO Foods.", alternates: { canonical: "/faq" } };
+
+const FAQ_AM: [string, string][] = [
+  ["በመስመር ላይ መክፈል እችላለሁ?", "ገና አይቻልም። ይህ ድረ ገጽ የትዕዛዝ ጥያቄዎችን ይቀበላል። ዋጋ፣ መኖርና ማድረሻን ለማረጋገጥ እናነጋግርዎታለን፤ ክፍያውንም በቀጥታ እናመቻቻለን።"],
+  ["ጥያቄ መላክ ትዕዛዜን ያረጋግጣል?", "አይደለም። ጥያቄ የሚፈልጉትን ይነግረናል። ትዕዛዝዎ የሚረጋገጠው ካነጋገርንዎና በዝርዝሩ ከተስማማን በኋላ ብቻ ነው።"],
+  ["እንዴት ታገኙኛላችሁ?", "በጥያቄው ቅጽ ላይ ባስገቡት ኢሜይል ወይም ስልክ፣ ከተላከ በኋላ የሚታየውን የማጣቀሻ ቁጥር በመጠቀም።"],
+  ["የት ታደርሳላችሁ?", "በትዕዛዝ ጥያቄው ላይ ዚፕ ኮድዎን ያስገቡ። ለአካባቢዎ ያሉትን የማድረሻ ወይም የመውሰጃ አማራጮች እንነግርዎታለን።"],
+  ["በጅምላ ትሸጣላችሁ?", "አዎ። ግሮሰሪዎች፣ ሱፐርማርኬቶች፣ ምግብ ቤቶችና አከፋፋዮች ምርቶችን፣ ብዛትንና በምን ያህል ጊዜ ለማዘዝ እንዳሰቡ የያዘ የጅምላ ጥያቄ መላክ ይችላሉ።"],
+  ["የማሸጊያ ፎቶዎቹ እውነተኛ ናቸው?", "“ትክክለኛ ማሸጊያ” የተባሉት ፎቶዎች እውነተኛ የኢትዮ ከረጢቶችን ያሳያሉ። “የማሸጊያ ንድፍ” የተባሉት የንድፍ ቅድመ ዕይታዎች ናቸው፤ የሚደርስዎ ከረጢት የተለየ ሊመስል ይችላል።"],
+  ["ግብዓቶችንና የአመጋገብ መረጃን የት አገኛለሁ?", "በእያንዳንዱ ማሸጊያ ላይ ታትመዋል። ያረጋገጥናቸውን ዝርዝሮች ወደ እያንዳንዱ የምርት ገጽ እንጨምራለን።"],
+  ["ያልዘረዘራችሁትን ምርት መጠየቅ እችላለሁ?", "አዎ። ከ‹ያግኙን› ገጽ መልዕክት ይላኩልንና የሚፈልጉትን ይንገሩን።"],
+];
 
 const FAQ: [string, string][] = [
   ["Can I pay online?", "Not yet. This site collects order requests. We contact you to confirm price, availability and delivery, and arrange payment directly."],
@@ -19,11 +31,11 @@ export default function FaqPage() {
   return (
     <>
       <section className="phead"><div className="wrap">
-        <nav className="crumbs" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><span>FAQ</span></nav>
-        <h1>Questions and answers</h1>
+        <nav className="crumbs" aria-label="Breadcrumb"><Link href="/"><T k="nav.home" /></Link><span>/</span><span><T k="foot.faq" /></span></nav>
+        <h1><T k="faq.title" /></h1>
       </div></section>
       <section className="sec" style={{ paddingTop: 40 }}><div className="wrap"><div className="faq">
-        {FAQ.map(([q, a]) => <details key={q}><summary>{q}</summary><p>{a}</p></details>)}
+        {FAQ.map(([q, a], i) => <details key={q}><summary><T en={q} am={FAQ_AM[i]?.[0]} /></summary><p><T en={a} am={FAQ_AM[i]?.[1]} /></p></details>)}
       </div></div></section>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />
     </>

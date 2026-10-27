@@ -5,12 +5,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import type { GrainStyle } from "@/lib/types";
 import { GRAIN, sprites, type Sprite } from "./grains";
+import { T } from "./T";
+import type { Key } from "@/lib/i18n";
 
 type HeroGrain = "lentil" | "fava" | "flax";
-const LINES: { g: HeroGrain; text: string; geez: string; color: string }[] = [
-  { g: "lentil", text: "Lentils for misir.", geez: "ምስር", color: "var(--lentil)" },
-  { g: "fava", text: "Fava for ful.", geez: "ባቄላ", color: "var(--fava)" },
-  { g: "flax", text: "Flax for telba.", geez: "ተልባ", color: "var(--flax)" },
+const LINES: { g: HeroGrain; k: Key; small: Key; color: string }[] = [
+  { g: "lentil", k: "hero.lentil", small: "hero.lentil.small", color: "var(--lentil)" },
+  { g: "fava", k: "hero.fava", small: "hero.fava.small", color: "var(--fava)" },
+  { g: "flax", k: "hero.flax", small: "hero.flax.small", color: "var(--flax)" },
 ];
 const BAGS: Record<HeroGrain, { src: string; alt: string; name: string; kind: "actual" | "concept"; tilt: string }> = {
   lentil: { src: "/images/lentils-photo.webp", alt: "ETHIO Football Red Lentils, 2 lb bag", name: "Football Red Lentils · 2 LB", kind: "actual", tilt: "rotate(-5deg)" },
@@ -21,17 +23,20 @@ const ORDER: HeroGrain[] = ["lentil", "fava", "flax"];
 
 interface Falling { x: number; y: number; vx: number; vy: number; r: number; vr: number; type: GrainStyle; s: Sprite }
 
-export function Hero({ lede }: { lede: string }) {
+export function Hero({ lede, ledeAm }: { lede: string; ledeAm?: string }) {
   const secRef = useRef<HTMLElement>(null);
   const cvRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef<HeroGrain>("lentil");
   const autoRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const [active, setActive] = useState<HeroGrain>("lentil");
+  // Only load the other bag photos once their line has been shown.
+  const [seen, setSeen] = useState<HeroGrain[]>(["lentil"]);
 
   const choose = useCallback((g: HeroGrain, user?: boolean) => {
     activeRef.current = g;
     setActive(g);
+    setSeen((s) => (s.includes(g) ? s : [...s, g]));
     if (user) {
       clearInterval(autoRef.current);
       autoRef.current = setInterval(() => choose(ORDER[(ORDER.indexOf(activeRef.current) + 1) % 3]!), 9000);
@@ -164,9 +169,11 @@ export function Hero({ lede }: { lede: string }) {
     io.observe(sec);
     const vis = () => { if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else if (started && !RM && !raf) { last = performance.now(); raf = requestAnimationFrame(frame); } };
     document.addEventListener("visibilitychange", vis);
+    // Fetch the other bag photos after the page has settled so later switches crossfade smoothly.
+    const preload = setTimeout(() => setSeen(ORDER), 3500);
     if (!RM) autoRef.current = setInterval(() => choose(ORDER[(ORDER.indexOf(activeRef.current) + 1) % 3]!), 9000);
     return () => {
-      alive = false; cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); clearInterval(autoRef.current);
+      alive = false; clearTimeout(preload); cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); clearInterval(autoRef.current);
       sec.removeEventListener("pointermove", onMove); sec.removeEventListener("pointerleave", onLeave); sec.removeEventListener("pointerdown", onDown);
       window.removeEventListener("pointerup", onUp); document.removeEventListener("visibilitychange", vis);
     };
@@ -181,25 +188,25 @@ export function Hero({ lede }: { lede: string }) {
           <h1>
             {LINES.map((l) => (
               <button key={l.g} type="button" aria-pressed={active === l.g} style={{ "--c": l.color } as React.CSSProperties} onClick={() => choose(l.g, true)}>
-                <span>{l.text}</span><span className="gz" lang="am">{l.geez}</span><span className="dot" />
+                <span><T k={l.k} /></span><span className="gz"><T k={l.small} /></span><span className="dot" />
               </button>
             ))}
           </h1>
-          <p className="lede">{lede}</p>
+          <p className="lede"><T en={lede} am={ledeAm} /></p>
           <div className="hero-actions">
-            <Link className="btn red" href="/products">Browse products <ArrowRight /></Link>
-            <Link className="btn ghost" href="/wholesale">Wholesale inquiry</Link>
+            <Link className="btn red" href="/products"><T k="cta.browse" /> <ArrowRight /></Link>
+            <Link className="btn ghost" href="/wholesale"><T k="cta.wholesale" /></Link>
           </div>
-          <p className="hero-hint" aria-hidden="true">Tap a line to switch grains. Press and drag anywhere to pour.</p>
+          <p className="hero-hint" aria-hidden="true"><T k="hero.hint" /></p>
         </div>
         <div className="hero-bag" aria-live="polite">
           <div className="bagframe" ref={frameRef} style={{ transform: bag.tilt }}>
             <div className="ph">
-              {ORDER.map((g) => (
-                <Image key={g} className={g === active ? "on" : ""} src={BAGS[g].src} alt={g === active ? BAGS[g].alt : ""} fill sizes="(max-width: 900px) 88vw, 520px" priority={g === "lentil"} />
+              {ORDER.filter((g) => seen.includes(g)).map((g) => (
+                <Image key={g} className={g === active ? "on" : ""} src={BAGS[g].src} alt={g === active ? BAGS[g].alt : ""} fill sizes="(max-width: 900px) 88vw, 520px" quality={70} priority={g === "lentil"} fetchPriority={g === "lentil" ? "high" : "low"} />
               ))}
             </div>
-            <div className="bagcap"><b>{bag.name}</b><span className={`tag${bag.kind === "concept" ? " concept" : ""}`}>{bag.kind === "actual" ? "Actual package" : "Package concept"}</span></div>
+            <div className="bagcap"><b>{bag.name}</b><span className={`tag${bag.kind === "concept" ? " concept" : ""}`}><T k={bag.kind === "actual" ? "tag.actual" : "tag.concept"} /></span></div>
           </div>
         </div>
       </div>
