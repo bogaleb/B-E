@@ -94,8 +94,8 @@ export function ImageUploader({ productId }: { productId: string }) {
   return (
     <form action={action} className="grid gap-4" key={state?.ok ? String(Date.now()) : "form"}>
       <input type="hidden" name="productId" value={productId} />
-      <div className="grid gap-4 sm:grid-cols-[160px_1fr]">
-        <div className="grid aspect-[4/3] place-items-center overflow-hidden rounded-xl border border-dashed border-line bg-cream text-xs text-muted">
+      <div className="grid gap-4">
+        <div className="grid aspect-[4/3] w-40 place-items-center overflow-hidden rounded-xl border border-dashed border-line bg-cream text-xs text-muted">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           {preview ? <img src={preview} alt="" className="size-full object-cover" /> : "Preview"}
         </div>

@@ -162,7 +162,7 @@ main{min-height:60vh}
 .cream{background:var(--cream)}
 
 /* product cards */
-.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.pgrid{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
 .card{position:relative;display:flex;flex-direction:column;background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;text-decoration:none;transition:box-shadow .3s ease, border-color .3s ease, transform .3s ease;transform-style:preserve-3d}
 .card:hover{box-shadow:var(--shadow);border-color:var(--line-2)}
 .card .media{position:relative;aspect-ratio:4/3;background:var(--cream);overflow:hidden}
@@ -184,12 +184,12 @@ main{min-height:60vh}
 .addbtn.done{background:var(--green);border-color:var(--green);color:#fff}
 .addbtn svg{width:16px;height:16px}
 
-.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media (min-width:980px){.grid.lead{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.lead > .card:first-child{grid-column:span 2}.grid.lead > .card:first-child .media{aspect-ratio:2.75/1}}
-@media (max-width:1100px){.grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:980px){.grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:640px){.grid.three,.grid.four{grid-template-columns:1fr}}
+.pgrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pgrid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (min-width:980px){.pgrid.lead{grid-template-columns:repeat(3,minmax(0,1fr))}.pgrid.lead > .card:first-child{grid-column:span 2}.pgrid.lead > .card:first-child .media{aspect-ratio:2.75/1}}
+@media (max-width:1100px){.pgrid.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:980px){.pgrid.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.pgrid.three,.pgrid.four{grid-template-columns:1fr}}
 /* categories */
 .cats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 .cat{position:relative;display:grid;gap:6px;align-content:end;min-height:190px;padding:22px;border-radius:var(--r-md);background:var(--white);border:1px solid var(--line);text-decoration:none;overflow:hidden;transition:border-color .25s, transform .25s}

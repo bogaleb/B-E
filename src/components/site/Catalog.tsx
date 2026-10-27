@@ -37,7 +37,7 @@ export function Catalog({ products, categories }: { products: Product[]; categor
       </div>
       <h2 className="sr">Product list</h2>
       <p className="sr" aria-live="polite">{list.length} products shown</p>
-      <div className={`grid three${lead ? " lead" : ""}`}>
+      <div className={`pgrid three${lead ? " lead" : ""}`}>
         {list.length ? list.map((p, i) => <ProductCard key={p.slug} product={p} priority={i < 3} />) : (
           <div className="empty" style={{ gridColumn: "1/-1" }}>
             <h3>{q ? <>No products match “{q}”</> : "No products in this filter"}</h3>

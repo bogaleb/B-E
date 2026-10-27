@@ -75,7 +75,7 @@ export default async function ProductPage({ params }: Props) {
       </div></section>
       <section className="sec cream"><div className="wrap">
         <div className="sec-head"><div><h2>More from ETHIO</h2></div><Link className="btn ghost" href="/products">All products</Link></div>
-        <div className={`grid ${others.length >= 4 ? "four" : "three"}`}>{others.map((o) => <ProductCard key={o.slug} product={o} />)}</div>
+        <div className={`pgrid ${others.length >= 4 ? "four" : "three"}`}>{others.map((o) => <ProductCard key={o.slug} product={o} />)}</div>
       </div></section>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />
     </>

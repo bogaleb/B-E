@@ -32,7 +32,7 @@ export default async function Home() {
             <div><span className="kicker">The range</span><h2>Staples for the pantry and the shelf</h2><p className="lede">Packed in clear bags so you can see what you&apos;re buying.</p></div>
             <Link className="btn ghost" href="/products">See all products</Link>
           </div>
-          <div className="grid three">{featured.map((p) => <ProductCard key={p.slug} product={p} />)}</div>
+          <div className="pgrid three">{featured.map((p) => <ProductCard key={p.slug} product={p} />)}</div>
         </div>
       </section>
 
