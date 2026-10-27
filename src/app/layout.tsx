@@ -11,7 +11,6 @@ const display = localFont({ src: "../fonts/young-serif-latin-400-normal.woff2", 
 const body = localFont({
   src: [
     { path: "../fonts/hanken-grotesk-latin-400-normal.woff2", weight: "400" },
-    { path: "../fonts/hanken-grotesk-latin-500-normal.woff2", weight: "500" },
     { path: "../fonts/hanken-grotesk-latin-600-normal.woff2", weight: "600" },
     { path: "../fonts/hanken-grotesk-latin-700-normal.woff2", weight: "700" },
   ],

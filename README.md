@@ -6,7 +6,7 @@ payment: the team confirms price, stock and delivery directly. A secure dashboar
 photos, requests and site text.
 
 **Stack:** Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · shadcn/ui-style components · Lucide ·
-Motion for React · Supabase (Postgres, Auth, Storage) · Resend · Vercel.
+Supabase (Postgres, Auth, Storage) · Resend · Vercel.
 
 ---
 
@@ -149,6 +149,7 @@ saving in the dashboard triggers an immediate refresh).
 - Privacy and Terms are English only and say so in Amharic.
 
 ### Dark mode, sound and motion
+- Animations are plain CSS and canvas (no animation library) to keep pages light.
 - The sun/moon button switches themes (defaults to the visitor's system setting). The admin dashboard stays light.
 - Adding to the inquiry list plays a short synthesized grain rattle and a light vibration on phones. Visitors can
   turn sounds off in the footer.

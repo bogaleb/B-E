@@ -21,7 +21,14 @@ export function NavProgress() {
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
   }, []);
+  const first = useRef(true);
   useEffect(() => {
+    // Replay a short enter animation on the page content after client-side navigation.
+    if (first.current) first.current = false;
+    else {
+      const m = document.getElementById("main");
+      if (m) { m.classList.remove("enter"); void m.offsetWidth; m.classList.add("enter"); }
+    }
     clearTimeout(timer.current);
     setState((s) => (s === "loading" ? "done" : "idle"));
     const t = setTimeout(() => setState("idle"), 450);

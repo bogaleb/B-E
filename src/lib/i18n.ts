@@ -125,18 +125,6 @@ export const D = {
   "home.cta.sub": { en: "Ask about stock, sizes or delivery. We'll get back to you.", am: "ስለ ክምችት፣ መጠን ወይም ማድረሻ ይጠይቁ። መልስ እንሰጥዎታለን።" },
   "marquee.rw": { en: "Retail & wholesale", am: "ችርቻሮና ጅምላ" },
 
-  // field to bag
-  "story.kicker": { en: "From field to bag", am: "ከማሳ እስከ ከረጢት" },
-  "story.title": { en: "How ETHIO staples reach your kitchen", am: "የኢትዮ ምርቶች ወደ ኩሽናዎ እንዴት እንደሚደርሱ" },
-  "story.1.t": { en: "Grown and harvested", am: "ይበቅላል፣ ይታጨዳል" },
-  "story.1.p": { en: "Lentils, fava beans and flax are field crops. They're harvested and dried before they travel.", am: "ምስር፣ ባቄላ እና ተልባ የማሳ ሰብሎች ናቸው። ከመጓጓዛቸው በፊት ይታጨዳሉ፣ ይደርቃሉ።" },
-  "story.2.t": { en: "Cleaned and sorted", am: "ይጸዳል፣ ይለያል" },
-  "story.2.p": { en: "Dust, chaff and broken pieces are taken out, so what's left is ready to cook.", am: "አቧራ፣ ገለባና የተሰበሩ ፍሬዎች ይወጣሉ፤ የቀረው ለማብሰል ዝግጁ ነው።" },
-  "story.3.t": { en: "Packed in clear 2 lb bags", am: "በግልጽ 2 ፓውንድ ከረጢት ይታሸጋል" },
-  "story.3.p": { en: "Each bag carries the net weight, nutrition facts and a barcode, and you can see the grain inside.", am: "እያንዳንዱ ከረጢት የተጣራ ክብደት፣ የአመጋገብ መረጃና ባርኮድ አለው፤ ውስጡ ያለውንም እህል ማየት ይችላሉ።" },
-  "story.4.t": { en: "On the shelf", am: "በመደርደሪያ ላይ" },
-  "story.4.p": { en: "Stores, restaurants and households order through B&E Wholesale in Sterling, Virginia.", am: "ሱቆች፣ ምግብ ቤቶችና ቤተሰቦች በስተርሊንግ፣ ቨርጂኒያ በሚገኘው ቢ ኤንድ ኢ ሆልሴል በኩል ያዝዛሉ።" },
-
   // catalog
   "cat.title": { en: "All products", am: "ሁሉም ምርቶች" },
   "cat.lede": { en: "Browse the ETHIO range. Add anything to your inquiry list and we'll confirm price and availability.", am: "የኢትዮ ምርቶችን ይመልከቱ። ማንኛውንም ወደ ጥያቄ ዝርዝርዎ ያክሉ፤ ዋጋውንና መኖሩን እናረጋግጣለን።" },

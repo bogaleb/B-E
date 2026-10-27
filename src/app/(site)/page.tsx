@@ -2,8 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Store, CookingPot, Truck } from "lucide-react";
 import { Hero } from "@/components/site/Hero";
-import { GrainSpill } from "@/components/site/GrainSpill";
-import { FieldToBag } from "@/components/site/FieldToBag";
 import { ProductCard } from "@/components/site/ProductCard";
 import { GrainSwatch } from "@/components/site/GrainSwatch";
 import { T } from "@/components/site/T";
@@ -21,7 +19,6 @@ export default async function Home() {
   return (
     <>
       <Hero lede={hero.lede} ledeAm={hero.ledeAm} />
-      <GrainSpill />
       <div className="strip" aria-hidden="true">
         <div className="track">
           {[0, 1].map((n) => (
@@ -43,8 +40,6 @@ export default async function Home() {
           <div className="pgrid three">{featured.map((p) => <ProductCard key={p.slug} product={p} />)}</div>
         </div>
       </section>
-
-      <FieldToBag />
 
       <section className="sec cream">
         <div className="wrap">
