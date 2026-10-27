@@ -27,7 +27,7 @@ export const D = {
   "hero.name.lentil": { en: "Red Lentils", am: "ቀይ ምስር" },
   "hero.name.fava": { en: "Split Fava Beans", am: "የተከካ ባቄላ" },
   "hero.name.flax": { en: "Brown Flaxseeds", am: "ቡናማ ተልባ" },
-  "hero.hint": { en: "Run your finger across the letters to stir the grains. Press to pour more.", am: "እህሉን ለማንቀሳቀስ ፊደሎቹን ይዳስሱ። ተጨማሪ ለማፍሰስ ይጫኑ።" },
+  "hero.hint": { en: "Tap a name to switch grains. Sweep across the pile to scoop it, or press and drag to pour.", am: "እህሉን ለመቀየር ስም ይንኩ። ክምሩን ለመዝገን በላዩ ላይ ያንሸራትቱ፤ ለማፍሰስ ይጫኑና ይጎትቱ።" },
 
   // common actions
   "cta.browse": { en: "Browse products", am: "ምርቶችን ይመልከቱ" },
